@@ -1,14 +1,17 @@
-package com.example.jehunonboarding.controller.response;
+package com.example.jehunonboarding.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
-public class JobPostingSearchResponse {
+@Getter
+@AllArgsConstructor
+public class JobPosting {
     private int companyId;
     private String companyName;
     private String nation;
     private String region;
     private String jobPosition;
     private long jobCompensation;
+    private String description;
     private String skill;
 }
