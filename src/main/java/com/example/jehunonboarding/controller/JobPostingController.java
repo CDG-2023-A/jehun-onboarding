@@ -49,7 +49,8 @@ public class JobPostingController {
     }
 
     @PostMapping("/v1/job-postings/{jobPostingId}/apply")
-    public ResponseEntity<CommonResponse> apply(@RequestBody JobPostingApplyRequest request) {
+    public ResponseEntity<CommonResponse> apply(@Valid @RequestBody JobPostingApplyRequest request) {
+        jobPostingService.apply(request.getCompanyId(), request.getMemberId());
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
 
