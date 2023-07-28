@@ -3,16 +3,27 @@ package com.example.jehunonboarding.controller;
 import com.example.jehunonboarding.controller.request.*;
 import com.example.jehunonboarding.controller.response.CommonResponse;
 import com.example.jehunonboarding.controller.response.JobPostingFindDetailResponse;
-import com.example.jehunonboarding.controller.response.JobPostingSearchResponse;
+import com.example.jehunonboarding.controller.response.JobPostingsSearchResponse;
+import com.example.jehunonboarding.domain.JobPosting;
+import com.example.jehunonboarding.domain.JobPostingService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 public class JobPostingController {
 
+    private final JobPostingService jobPostingService;
+
     @PostMapping("/v1/job-postings")
-    public ResponseEntity<CommonResponse> register(@RequestBody JobPostingRegisterRequest request) {
+    public ResponseEntity<CommonResponse> register(@Valid @RequestBody JobPostingRegisterRequest request) {
+        jobPostingService.register(request.toDomain());
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
 
@@ -27,8 +38,9 @@ public class JobPostingController {
     }
 
     @GetMapping("/v1/job-postings")
-    public ResponseEntity<JobPostingSearchResponse> search(String keyword) {
-        return new ResponseEntity(new JobPostingSearchResponse(), HttpStatus.OK);
+    public ResponseEntity<JobPostingsSearchResponse> search(String keyword, Pageable pageable) {
+        List<JobPosting> jobPostings = jobPostingService.search(pageable, keyword);
+        return new ResponseEntity(new JobPostingsSearchResponse(jobPostings), HttpStatus.OK);
     }
 
     @GetMapping("/v1/job-postings/{jobPostingId}")
