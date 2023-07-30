@@ -5,6 +5,8 @@ import com.example.jehunonboarding.controller.response.CommonResponse;
 import com.example.jehunonboarding.controller.response.JobPostingFindDetailResponse;
 import com.example.jehunonboarding.controller.response.JobPostingsSearchResponse;
 import com.example.jehunonboarding.domain.JobPosting;
+import com.example.jehunonboarding.domain.JobPostingEditInfo;
+import com.example.jehunonboarding.domain.JobPostingRemoveInfo;
 import com.example.jehunonboarding.domain.JobPostingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +30,14 @@ public class JobPostingController {
     }
 
     @PutMapping("/v1/job-postings/{jobPostingId}")
-    public ResponseEntity<CommonResponse> edit(@RequestBody JobPostingEditRequest request) {
+    public ResponseEntity<CommonResponse> edit(@PathVariable int jobPostingId, @Valid @RequestBody JobPostingEditInfo request) {
+        jobPostingService.edit(jobPostingId, request);
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
 
-    @DeleteMapping("/v1/job-postings/{jobPostingId}")
-    public ResponseEntity<CommonResponse> remove(@PathVariable int jobPostingId) {
+    @DeleteMapping("/v1/job-postings/{companyId}/{jobPostingId}")
+    public ResponseEntity<CommonResponse> remove(@PathVariable int companyId, @PathVariable int jobPostingId) {
+        jobPostingService.remove(companyId, jobPostingId);
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
 
