@@ -1,10 +1,14 @@
 package com.example.jehunonboarding.domain;
 
+import com.example.jehunonboarding.controller.request.JobPostingEditRequest;
+import com.example.jehunonboarding.controller.request.JobPostingRemoveRequest;
 import com.example.jehunonboarding.repository.CompanyRepository;
 import com.example.jehunonboarding.repository.JobPostingRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -32,5 +36,31 @@ public class JobPostingService {
 
     public List<JobPosting> search(Pageable pageable, String keyword) {
         return jobPostingRepository.findByKeyword(pageable, keyword);
+    }
+
+    public void edit(int jobPostingId, @Valid JobPostingEditInfo editInfo) {
+        companyRepository.findById(editInfo.getCompanyId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회사입니다."));
+
+        JobPostingEntity jobPostingEntity = jobPostingRepository.findById((long) jobPostingId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
+
+        jobPostingEntity.JobPostingEdit(editInfo);
+        jobPostingRepository.save(jobPostingEntity);
+    }
+
+    public void remove(int companyId, int jobPostingId) {
+        companyRepository.findById(companyId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회사입니다."));
+
+        JobPostingEntity jobPostingEntity = jobPostingRepository.findById((long) jobPostingId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
+
+        if (jobPostingEntity.JobPostingRemove(companyId, jobPostingId)) {
+            jobPostingRepository.delete(jobPostingEntity);
+        } else {
+            throw new IllegalArgumentException("채용공고의 회사와 삭제 요청의 회사가 일치하지 않습니다.");
+        }
+
     }
 }
