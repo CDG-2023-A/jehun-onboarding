@@ -1,7 +1,9 @@
 package com.example.jehunonboarding.domain;
 
+import com.example.jehunonboarding.controller.request.JobPostingApplyRequest;
 import com.example.jehunonboarding.repository.CompanyRepository;
 import com.example.jehunonboarding.repository.JobPostingRepository;
+import com.example.jehunonboarding.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -58,10 +60,24 @@ public class JobPostingService {
         } else {
             throw new IllegalArgumentException("채용공고의 회사와 삭제 요청의 회사가 일치하지 않습니다.");
         }
-
     }
 
     public List<JobPosting> findDetail(int jobPostingId) {
         return jobPostingRepository.detailPosting(jobPostingId);
+    }
+
+    public void apply(int jobPostingId, JobPostingApplyRequest request) {
+        JobPostingEntity jobPostingEntity = jobPostingRepository.findById((long) jobPostingId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
+
+        int userId = request.getUserId();
+
+        if (jobPostingEntity.isApplicant(String.valueOf(userId))) {
+            throw new IllegalArgumentException("이미 지원한 채용공고입니다.");
+        } else {
+            jobPostingEntity.addApplicant(userId);
+
+            jobPostingRepository.save(jobPostingEntity);
+        }
     }
 }

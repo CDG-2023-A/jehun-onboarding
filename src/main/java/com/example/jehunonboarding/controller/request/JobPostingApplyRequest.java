@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class JobPostingApplyRequest {
-    private int companyId;
+    private int jopPostingId;
     private int userId;
 }
