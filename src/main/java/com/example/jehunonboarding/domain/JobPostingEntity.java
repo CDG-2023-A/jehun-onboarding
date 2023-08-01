@@ -28,6 +28,7 @@ public class JobPostingEntity {
     @Column(nullable = false)
     private String skill;
 
+
     public JobPostingEntity(int companyId, String jobPosition, long jobCompensation, String description, String skill) {
         this.companyId = companyId;
         this.jobPosition = jobPosition;

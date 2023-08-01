@@ -12,4 +12,6 @@ public interface JobPostingRepository extends JpaRepository<JobPostingEntity, Lo
 
     @Query("SELECT new com.example.jehunonboarding.domain.JobPosting(c.id, c.companyName, c.nation, c.region, jp.jobPosition, jp.jobCompensation, jp.description, jp.skill) FROM JobPostingEntity jp INNER JOIN Company c ON jp.companyId = c.id WHERE jp.jobPosition LIKE %:keyword% OR c.companyName LIKE %:keyword%")
     List<JobPosting> findByKeyword(Pageable pageable, String keyword);
+    @Query("SELECT new com.example.jehunonboarding.domain.JobPosting(c.id, c.companyName, c.nation, c.region, jp.jobPosition, jp.jobCompensation, jp.description, jp.skill) FROM JobPostingEntity jp INNER JOIN Company c ON jp.companyId = c.id")
+    List<JobPosting> detailPosting(int jobPostingId);
 }

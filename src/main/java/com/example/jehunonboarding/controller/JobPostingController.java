@@ -4,10 +4,7 @@ import com.example.jehunonboarding.controller.request.*;
 import com.example.jehunonboarding.controller.response.CommonResponse;
 import com.example.jehunonboarding.controller.response.JobPostingFindDetailResponse;
 import com.example.jehunonboarding.controller.response.JobPostingsSearchResponse;
-import com.example.jehunonboarding.domain.JobPosting;
-import com.example.jehunonboarding.domain.JobPostingEditInfo;
-import com.example.jehunonboarding.domain.JobPostingRemoveInfo;
-import com.example.jehunonboarding.domain.JobPostingService;
+import com.example.jehunonboarding.domain.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -49,12 +46,12 @@ public class JobPostingController {
 
     @GetMapping("/v1/job-postings/{jobPostingId}")
     public ResponseEntity<JobPostingFindDetailResponse> findDetail(@PathVariable int jobPostingId) {
-        return new ResponseEntity(new JobPostingFindDetailResponse(), HttpStatus.OK);
+        List<JobPosting> jobPostings = jobPostingService.findDetail(jobPostingId);
+        return new ResponseEntity(new JobPostingFindDetailResponse(jobPostings), HttpStatus.OK);
     }
 
     @PostMapping("/v1/job-postings/{jobPostingId}/apply")
     public ResponseEntity<CommonResponse> apply(@RequestBody JobPostingApplyRequest request) {
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
-
 }

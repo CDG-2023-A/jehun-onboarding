@@ -1,14 +1,11 @@
 package com.example.jehunonboarding.domain;
 
-import com.example.jehunonboarding.controller.request.JobPostingEditRequest;
-import com.example.jehunonboarding.controller.request.JobPostingRemoveRequest;
 import com.example.jehunonboarding.repository.CompanyRepository;
 import com.example.jehunonboarding.repository.JobPostingRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -62,5 +59,9 @@ public class JobPostingService {
             throw new IllegalArgumentException("채용공고의 회사와 삭제 요청의 회사가 일치하지 않습니다.");
         }
 
+    }
+
+    public List<JobPosting> findDetail(int jobPostingId) {
+        return jobPostingRepository.detailPosting(jobPostingId);
     }
 }
