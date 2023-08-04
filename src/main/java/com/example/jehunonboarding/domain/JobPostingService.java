@@ -3,7 +3,6 @@ package com.example.jehunonboarding.domain;
 import com.example.jehunonboarding.controller.request.JobPostingApplyRequest;
 import com.example.jehunonboarding.repository.CompanyRepository;
 import com.example.jehunonboarding.repository.JobPostingRepository;
-import com.example.jehunonboarding.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
