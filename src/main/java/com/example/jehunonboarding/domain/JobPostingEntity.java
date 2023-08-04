@@ -56,7 +56,6 @@ public class JobPostingEntity {
         }
         return false; // 그렇지 않은 경우 false를 반환
     }
-
     public boolean isApplicant(String userId) {
         return applicants.contains(userId);
     }

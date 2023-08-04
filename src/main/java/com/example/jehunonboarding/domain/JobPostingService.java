@@ -1,12 +1,15 @@
 package com.example.jehunonboarding.domain;
 
 import com.example.jehunonboarding.controller.request.JobPostingApplyRequest;
+import com.example.jehunonboarding.controller.request.JobPostingEditRequest;
+import com.example.jehunonboarding.controller.request.JobPostingRemoveRequest;
 import com.example.jehunonboarding.repository.CompanyRepository;
 import com.example.jehunonboarding.repository.JobPostingRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
