@@ -44,7 +44,7 @@ public class JobPostingService {
         JobPostingEntity jobPostingEntity = jobPostingRepository.findById((long) jobPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
 
-        jobPostingEntity.JobPostingEdit(editInfo);
+        jobPostingEntity.editJobPosting(editInfo);
         jobPostingRepository.save(jobPostingEntity);
     }
 
@@ -55,7 +55,7 @@ public class JobPostingService {
         JobPostingEntity jobPostingEntity = jobPostingRepository.findById((long) jobPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
 
-        if (jobPostingEntity.JobPostingRemove(companyId, jobPostingId)) {
+        if (jobPostingEntity.removeJobPosting(companyId, jobPostingId)) {
             jobPostingRepository.delete(jobPostingEntity);
         } else {
             throw new IllegalArgumentException("채용공고의 회사와 삭제 요청의 회사가 일치하지 않습니다.");

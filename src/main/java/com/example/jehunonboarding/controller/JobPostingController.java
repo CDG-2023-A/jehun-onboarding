@@ -32,7 +32,7 @@ public class JobPostingController {
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
     }
 
-    @DeleteMapping("/v1/job-postings/{companyId}/{jobPostingId}")
+    @DeleteMapping("/v1/job-postings/{jobPostingId}/{companyId}")
     public ResponseEntity<CommonResponse> remove(@PathVariable int companyId, @PathVariable int jobPostingId) {
         jobPostingService.remove(companyId, jobPostingId);
         return new ResponseEntity(new CommonResponse(true), HttpStatus.OK);
