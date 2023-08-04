@@ -4,17 +4,15 @@ import com.example.jehunonboarding.domain.JobPosting;
 import lombok.Data;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class JobPostingFindDetailResponse {
 
-    private List<JobPostingResponse> details;
+    private JobPostingResponse details;
 
-    public JobPostingFindDetailResponse(List<JobPosting> jobPostings) {
-        this.details = jobPostings.stream()
-                .map(JobPostingResponse::new)
-                .toList();
+    public JobPostingFindDetailResponse(JobPosting jobPosting, List<Integer> otherJobPostings) {
+        this.details = new JobPostingResponse(jobPosting);
+        this.details.setOtherJobPostings(otherJobPostings);
     }
 
     @Data
@@ -26,6 +24,7 @@ public class JobPostingFindDetailResponse {
         private String jobPosition;
         private long jobCompensation;
         private String skill;
+        private List<Integer> otherJobPostings;
 
         public JobPostingResponse(JobPosting jobPosting) {
             this.companyId = jobPosting.getCompanyId();
@@ -35,6 +34,10 @@ public class JobPostingFindDetailResponse {
             this.jobPosition = jobPosting.getJobPosition();
             this.jobCompensation = jobPosting.getJobCompensation();
             this.skill = jobPosting.getSkill();
+        }
+
+        public void setOtherJobPostings(List<Integer> otherJobPostings) {
+            this.otherJobPostings = otherJobPostings;
         }
     }
 }

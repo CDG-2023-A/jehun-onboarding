@@ -46,8 +46,12 @@ public class JobPostingController {
 
     @GetMapping("/v1/job-postings/{jobPostingId}")
     public ResponseEntity<JobPostingFindDetailResponse> findDetail(@PathVariable int jobPostingId) {
-        List<JobPosting> jobPostings = jobPostingService.findDetail(jobPostingId);
-        return new ResponseEntity(new JobPostingFindDetailResponse(jobPostings), HttpStatus.OK);
+        JobPosting jobPosting = jobPostingService.findDetail(jobPostingId).get(0);
+        List<Integer> otherJobPostings = jobPostingService.findOtherJobPostings(jobPosting.getCompanyId(), jobPostingId);
+
+        JobPostingFindDetailResponse response = new JobPostingFindDetailResponse(jobPosting, otherJobPostings);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/v1/job-postings/{jobPostingId}/apply")
